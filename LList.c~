@@ -1,0 +1,195 @@
+/*
+ * Author: <Your Name>
+ * Linked list data structure (Implementation)
+ */
+
+#include "LList.h"
+#include <assert.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+// Create a new node with data and next element (can be NULL)
+Node* node_new( person p, Node* next )
+{
+  Node* n = (Node*) malloc( sizeof( Node ) );
+  n->p = p;
+  n->next = next;
+
+  return n;
+}
+
+// Create an empty list (head shall be NULL)
+LList* llist_new()
+{
+  LList* l = (LList*) malloc( sizeof( LList ) );
+  l->head = NULL;
+
+  return l;
+}
+
+void llist_delete(LList* lst)
+{
+  Node* n;
+  for( n = lst->head; n != NULL; )
+  {
+    Node* n_ = n->next;
+    free(n);
+    n = n_;
+  }
+  free( lst );
+}
+
+// Traverse the linked list and return its size
+int llist_size( LList* lst )
+{
+  int i=0;
+  Node* n;
+  for( n = lst->head; n != NULL; n=n->next, i++ );
+  return i;
+}
+
+
+person llist_get( LList* lst, int idx )
+{
+  int i = 0;
+  Node* n;
+  for( n = lst->head; n != NULL && i < idx; n=n->next, i++ );
+  assert( i == idx );
+
+  return n->p;
+}
+
+// Add a new element at the end of the list
+LList* llist_append( LList* lst, person p )
+{
+  Node* n;
+  Node* n_ = node_new( p, NULL );
+
+  if( lst->head == NULL )
+  {
+    lst->head = n_;
+  }
+  else
+  {
+    for( n = lst->head; n != NULL && n->next != NULL; n=n->next );
+    n->next = n_;
+  }
+
+  return lst;
+}
+
+// Add a new element at the beginning of the list
+LList* llist_prepend( LList* lst, person p )
+{
+  Node* n = node_new( p, lst->head );
+  lst->head = n;
+
+  return lst;
+}
+
+// Add a new element at the @idx index
+LList* llist_insert( LList* lst, int idx, person p )
+{
+  if( idx == 0 )
+  {
+    Node* n_ = node_new( p, NULL );
+    n_->next = lst->head;
+    lst->head = n_;
+  }
+  else
+  {
+    int i = 1;
+    Node* n;
+    Node* n_ = node_new( p, NULL );
+
+    for( n = lst->head; n!=NULL && n->next!=NULL && i < idx; n=n->next, i++ );
+
+    n_->next = n->next;
+    n->next = n_;
+  }
+
+  return lst;
+}
+
+// Remove an element from the end of the list
+LList* llist_remove_last( LList* lst )
+{
+  Node* n;
+
+  if( lst->head->next == NULL )
+  {
+    free( lst->head );
+    lst->head = NULL;
+  }
+  else
+  {
+    for( n = lst->head; n->next != NULL && n->next->next != NULL; n=n->next );
+
+      free( n->next );
+      n->next = NULL;
+  }
+}
+
+// Remove an element from the beginning of the list
+LList* llist_remove_first( LList* lst )
+{
+  Node* n = lst->head;
+  assert( n != NULL );
+
+  lst->head = n->next;
+  free( n );
+  
+  return lst;
+}
+
+// Remove an element from an arbitrary position in the list
+LList* llist_remove( LList* lst, Node* idx )
+{
+	Node* n;
+Node* j;
+	n=lst->head;
+	if(n==NULL)
+	return lst;
+	if(n==idx){
+		lst->head=lst->head->next;
+		return lst;
+	}
+	for(;;n=n->next){
+		if(n->next->p.id==idx->p.id)
+		{
+		j=n->next;
+		break;
+		}
+	}
+	n->next=j->next;
+	free(j);
+	return lst;
+	/*
+	Node* n;
+	if(lst->head==NULL)
+	return lst;
+  if( idx == lst->head )
+  {
+    lst=llist_remove_first(lst);
+    
+  }
+  else
+  {
+    int i = 1;
+    for( n = lst->head; n!=NULL && n->next!=NULL; n=n->next, i++ ){
+	if(n->next=idx){
+    Node* n_ = n->next;
+    free(n_);
+    n->next = n_->next;
+    break;
+    }
+  }
+
+  return lst;
+}*/
+}
+
+
+
+
+

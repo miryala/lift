@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include "lift.c"
+#include <sys/time.h>
+
+main(){
+	int no,i,j,k=0;
+	int **info;
+	info=malloc(MAX_FLOORS*sizeof(int*));
+	person p;
+	Stack *up,*down;  //up and down lists contain persons going up and down
+	up=stack_new();
+	down=stack_new();
+	for(i=0;i<10;i++){
+		scanf("%d",&no);  //number of persons in lift
+		info[i]=malloc(2*no*sizeof(int));
+		for(j=0;j<2*no;j++){
+			scanf("%d",&info[i][j]);
+			if(j%2==1&&info[i][j]>i){
+				p.time=info[i][j-1];
+				p.id=k; //k is the identity of person.
+				k++;
+				p.from_floor=i;
+				p.to_floor=info[i][j];
+				up=stack_push(up,p);
+			}
+			if(j%2==1&&info[i][j]<i){
+				p.time=info[i][j-1];
+				p.id=k;
+				k++;
+				p.from_floor=i;
+				p.to_floor=info[i][j];
+				down=stack_push(down,p);
+			}	
+		}
+	}
+	printf("fuck\n");
+	LIFT *lift1,*lift2;
+	lift1=malloc(sizeof(LIFT));
+	lift2=malloc(sizeof(LIFT));
+	//initialising lifts
+	lift1->list=stack_new();
+	lift2->list=stack_new();
+	lift1->size=0;
+	lift2->size=0;
+	lift2->position=0;
+	lift1->position=0;
+	lift1->status=0;
+	lift2->status=0;
+	simulate2 (up,down,lift1,lift2);
+}

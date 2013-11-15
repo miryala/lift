@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include "Stack.c"
+#include "lift.c"
+
+# define MAX_FLOOR 10
+main(){
+	int no,i,j;
+	person a,b,c;
+	Stack* st=stack_new();
+			scanf("%d",&a.id);
+			scanf("%d",&a.from_floor);
+			scanf("%d",&a.to_floor);
+	
+		st=stack_push(st,a);
+			scanf("%d",&a.id);
+			scanf("%d",&a.from_floor);
+			scanf("%d",&a.to_floor);
+		st=stack_push(st,a);
+		/*			scanf("%d",&c.id);
+			scanf("%d",&c.from_floor);
+			scanf("%d",&c.to_floor);*/
+		
+		//printf("%d %d %d %d %d %d %d %d %d \n",a.id,a.from_floor,a.to_floor,b.id,b.from_floor,b.to_floor,c.id,c.from_floor,c.to_floor);
+		//Stack *st = stack_new();
+		//st=stack_push(st,a);
+		//st=stack_push(st,c);
+		person k=stack_top(st,NULL);
+		st=stack_pop(st);
+		printf("%d %d\n",k.from_floor,k.id);
+		Node* idx;
+		idx=st->head;
+		printf("%d %d\n",idx->p.from_floor,idx->p.id);
+		k=stack_top(st,NULL);
+		printf("%d %d\n",k.to_floor,k.id);
+		int o=stack_size(st);
+		printf("%d\n",o);
+	
+}
